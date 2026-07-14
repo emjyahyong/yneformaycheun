@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yneformaycheun — Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1d1f20',
+          surface: '#e9e9ea',
+          canvas: '#f2f2f3',
+          divider: '#1d1f2029',
+          accent: {
+            DEFAULT: '#5980a6',
+            100: '#eef6ff', 200: '#d6ebff', 300: '#b5d9fd', 400: '#94bce3',
+            500: '#749dc4', 600: '#597ea3', 700: '#416180', 800: '#2c455d', 900: '#1d2d3d',
+          },
+          neutral: {
+            100: '#f5f5f8', 200: '#e7e7ea', 300: '#d4d4d7', 400: '#b7b7ba',
+            500: '#98989b', 600: '#7a7a7d', 700: '#5d5d60', 800: '#424244', 900: '#2b2b2d',
+          },
+        },
+        fontFamily: {
+          heading: ['"Barlow Condensed"', 'system-ui', 'sans-serif'],
+          body: ['"Barlow"', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  }
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Barlow+Condensed:wght@400;600&display=swap');
+  .corner { position: absolute; width: 11px; height: 11px; color: rgba(29,31,32,.55); pointer-events: none; }
+  .corner::before { content: ""; position: absolute; left: 5px; top: 0; width: 1px; height: 100%; background: currentColor; }
+  .corner::after { content: ""; position: absolute; top: 5px; left: 0; width: 100%; height: 1px; background: currentColor; }
+  .corner.tl { top: -6px; left: -6px; }
+  .corner.tr { top: -6px; right: -6px; }
+  .corner.bl { bottom: -6px; left: -6px; }
+  .corner.br { bottom: -6px; right: -6px; }
+</style>
+</head>
+<body class="bg-canvas text-ink font-body">
+
+  <nav class="flex items-center gap-6 px-6 py-4 border-b border-divider">
+    <span class="font-heading font-semibold text-lg mr-auto">Yneformaycheun</span>
+    <a href="/dashboard.html" aria-current="page" class="text-sm text-accent-600">Dashboard</a>
+    <a href="/accueil.html" class="text-sm hover:text-accent-600">Sources</a>
+    <a href="#" class="text-sm hover:text-accent-600">Tags</a>
+    <button type="button" aria-label="Profil" class="relative w-[34px] h-[34px] inline-flex items-center justify-center border border-divider">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+  </nav>
+
+  <div class="flex gap-6 items-start px-6 py-6 max-w-[1180px] mx-auto">
+
+    <!-- Sidebar de filtres -->
+    <aside class="w-[190px] flex-none flex flex-col gap-6">
+      <div>
+        <h6 class="text-[13px] tracking-[0.08em] uppercase opacity-55 mb-2">Filtrer par tag</h6>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Spring</span>
+          <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] border border-accent text-accent-600">Java</span>
+          <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] border border-accent text-accent-600">Sécurité</span>
+          <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] border border-accent text-accent-600">DevOps</span>
+          <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] border border-accent text-accent-600">Base de données</span>
+        </div>
+      </div>
+      <div>
+        <h6 class="text-[13px] tracking-[0.08em] uppercase opacity-55 mb-2">Sources</h6>
+        <div class="flex flex-col gap-1.5 text-[13px]">
+          <div class="flex justify-between text-accent-700 font-semibold"><span>Toutes les sources</span><span>6</span></div>
+          <div class="flex justify-between opacity-75"><span>Baeldung</span><span>2</span></div>
+          <div class="flex justify-between opacity-75"><span>InfoQ</span><span>1</span></div>
+          <div class="flex justify-between opacity-75"><span>The New Stack</span><span>2</span></div>
+          <div class="flex justify-between opacity-75"><span>Docker Blog</span><span>1</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 class="font-heading font-semibold text-[42px] leading-[1.12] tracking-[-0.015em] mb-1">Fil d'actualité</h1>
+          <p class="text-ink/55 m-0">6 articles · triés par date</p>
+        </div>
+        <div class="flex gap-2 items-center">
+          <input type="search" placeholder="Rechercher un article…" class="w-[220px] min-h-9 px-2.5 py-1.5 text-sm bg-surface border border-divider">
+          <div class="inline-flex border border-divider">
+            <label class="inline-flex items-center gap-1.5 px-3 py-1.5 text-[13px] cursor-pointer bg-accent text-canvas">
+              <input type="radio" name="view1" checked class="sr-only">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            </label>
+            <label class="inline-flex items-center gap-1.5 px-3 py-1.5 text-[13px] cursor-pointer border-l border-divider">
+              <input type="radio" name="view1" class="sr-only">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <!-- Article 1 -->
+        <div class="relative border border-divider shadow-sm p-4 flex flex-col gap-2">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="flex justify-between text-[10px] tracking-[0.1em] uppercase text-accent-600"><span>Baeldung</span><span>13 juil.</span></div>
+          <div class="font-heading font-semibold text-[17px] leading-[1.2]">Spring Boot 3.4 : le support natif des HTTP Interfaces</div>
+          <p class="text-[13px] opacity-80 flex-1 m-0">Une interface Java annotée suffit désormais à générer un client HTTP typé, sans implémentation à écrire — ce que ça change pour les appels inter-services.</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Spring</span>
+            <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Java</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <a href="/detail-article.html" class="inline-flex items-center gap-1.5 text-accent-600 font-heading font-semibold text-[13px] px-1">Lire l'article<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+            <button type="button" aria-label="À lire plus tard" class="text-accent-600"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Article 2 -->
+        <div class="relative border border-divider shadow-sm p-4 flex flex-col gap-2">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="flex justify-between text-[10px] tracking-[0.1em] uppercase text-accent-600"><span>InfoQ</span><span>13 juil.</span></div>
+          <div class="font-heading font-semibold text-[17px] leading-[1.2]">OWASP Top 10 2025 : ce qui change pour les API REST</div>
+          <p class="text-[13px] opacity-80 flex-1 m-0">Les catégories bougent peu, mais l'accent mis sur la validation des entrées côté serveur se retrouve directement dans le plan de tests de sécurité du projet.</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Sécurité</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <a href="/detail-article.html" class="inline-flex items-center gap-1.5 text-accent-600 font-heading font-semibold text-[13px] px-1">Lire l'article<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+            <button type="button" aria-label="À lire plus tard" class="text-accent-600"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Article 3 -->
+        <div class="relative border border-divider shadow-sm p-4 flex flex-col gap-2">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="flex justify-between text-[10px] tracking-[0.1em] uppercase text-accent-600"><span>The New Stack</span><span>12 juil.</span></div>
+          <div class="font-heading font-semibold text-[17px] leading-[1.2]">TestContainers : tester ses accès données sans mocker le repository</div>
+          <p class="text-[13px] opacity-80 flex-1 m-0">Faire tourner un vrai PostgreSQL en conteneur pendant les tests d'intégration — le compromis retenu pour valider les repositories Spring Data JPA du projet.</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Java</span>
+            <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Base de données</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <a href="/detail-article.html" class="inline-flex items-center gap-1.5 text-accent-600 font-heading font-semibold text-[13px] px-1">Lire l'article<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+            <button type="button" aria-label="À lire plus tard" class="text-accent-600"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Article 4 -->
+        <div class="relative border border-divider shadow-sm p-4 flex flex-col gap-2">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="flex justify-between text-[10px] tracking-[0.1em] uppercase text-accent-600"><span>Baeldung</span><span>12 juil.</span></div>
+          <div class="font-heading font-semibold text-[17px] leading-[1.2]">Liquibase vs Flyway : lequel choisir pour un projet Spring en 2026&nbsp;?</div>
+          <p class="text-[13px] opacity-80 flex-1 m-0">Comparatif orienté migrations versionnées — le choix de Liquibase pour Yneformaycheun était surtout motivé par l'intégration Spring Boot déjà en place.</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Spring</span>
+            <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Base de données</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <a href="/detail-article.html" class="inline-flex items-center gap-1.5 text-accent-600 font-heading font-semibold text-[13px] px-1">Lire l'article<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+            <button type="button" aria-label="À lire plus tard" class="text-accent-600"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Article 5 -->
+        <div class="relative border border-divider shadow-sm p-4 flex flex-col gap-2">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="flex justify-between text-[10px] tracking-[0.1em] uppercase text-accent-600"><span>The New Stack</span><span>11 juil.</span></div>
+          <div class="font-heading font-semibold text-[17px] leading-[1.2]">Optimiser son pipeline GitHub Actions pour un build Maven</div>
+          <p class="text-[13px] opacity-80 flex-1 m-0">Cache des dépendances, parallélisation des jobs de test — de quoi resserrer le pipeline CI déclenché à chaque push du projet.</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">DevOps</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <a href="/detail-article.html" class="inline-flex items-center gap-1.5 text-accent-600 font-heading font-semibold text-[13px] px-1">Lire l'article<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+            <button type="button" aria-label="À lire plus tard" class="text-accent-600"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Article 6 -->
+        <div class="relative border border-divider shadow-sm p-4 flex flex-col gap-2">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="flex justify-between text-[10px] tracking-[0.1em] uppercase text-accent-600"><span>Docker Blog</span><span>10 juil.</span></div>
+          <div class="font-heading font-semibold text-[17px] leading-[1.2]">Docker Compose v2 : health checks et démarrage ordonné des services</div>
+          <p class="text-[13px] opacity-80 flex-1 m-0">Ordonner le démarrage app / PostgreSQL / nginx grâce aux health checks — directement applicable au docker-compose du déploiement local.</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">DevOps</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <a href="/detail-article.html" class="inline-flex items-center gap-1.5 text-accent-600 font-heading font-semibold text-[13px] px-1">Lire l'article<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+            <button type="button" aria-label="À lire plus tard" class="text-accent-600"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

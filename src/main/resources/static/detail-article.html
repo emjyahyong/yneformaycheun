@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yneformaycheun — Spring Boot 3.4 : le support natif des HTTP Interfaces</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1d1f20',
+          surface: '#e9e9ea',
+          canvas: '#f2f2f3',
+          divider: '#1d1f2029',
+          accent: {
+            DEFAULT: '#5980a6',
+            100: '#eef6ff', 200: '#d6ebff', 300: '#b5d9fd', 400: '#94bce3',
+            500: '#749dc4', 600: '#597ea3', 700: '#416180', 800: '#2c455d', 900: '#1d2d3d',
+          },
+          neutral: {
+            100: '#f5f5f8', 200: '#e7e7ea', 300: '#d4d4d7', 400: '#b7b7ba',
+            500: '#98989b', 600: '#7a7a7d', 700: '#5d5d60', 800: '#424244', 900: '#2b2b2d',
+          },
+        },
+        fontFamily: {
+          heading: ['"Barlow Condensed"', 'system-ui', 'sans-serif'],
+          body: ['"Barlow"', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  }
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Barlow+Condensed:wght@400;600&display=swap');
+  .corner { position: absolute; width: 11px; height: 11px; color: rgba(29,31,32,.55); pointer-events: none; }
+  .corner::before { content: ""; position: absolute; left: 5px; top: 0; width: 1px; height: 100%; background: currentColor; }
+  .corner::after { content: ""; position: absolute; top: 5px; left: 0; width: 100%; height: 1px; background: currentColor; }
+  .corner.tl { top: -6px; left: -6px; }
+  .corner.tr { top: -6px; right: -6px; }
+  .corner.bl { bottom: -6px; left: -6px; }
+  .corner.br { bottom: -6px; right: -6px; }
+</style>
+</head>
+<body class="bg-canvas text-ink font-body">
+
+  <nav class="flex items-center gap-6 px-6 py-4 border-b border-divider">
+    <span class="font-heading font-semibold text-lg mr-auto">Yneformaycheun</span>
+    <a href="/dashboard.html" class="text-sm hover:text-accent-600">Dashboard</a>
+    <a href="/accueil.html" class="text-sm hover:text-accent-600">Sources</a>
+    <a href="#" class="text-sm hover:text-accent-600">Tags</a>
+    <button type="button" aria-label="Profil" class="relative w-[34px] h-[34px] inline-flex items-center justify-center border border-divider">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+  </nav>
+
+  <div class="flex gap-8 items-start px-6 py-8 max-w-[1180px] mx-auto">
+
+    <!-- Contenu article -->
+    <div class="flex-1 min-w-0 max-w-[660px]">
+      <a href="/dashboard.html" class="inline-flex items-center gap-1.5 text-accent-600 font-heading font-semibold text-[13px] mb-4">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Retour au dashboard
+      </a>
+      <div class="flex items-center gap-2 text-[10px] tracking-[0.1em] uppercase text-accent-600 mb-2">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+        <span>Baeldung</span><span class="opacity-40 normal-case">·</span><span class="normal-case">13 juillet 2026</span>
+      </div>
+      <h1 class="font-heading font-semibold text-[42px] leading-[1.12] tracking-[-0.015em] mb-4">Spring Boot 3.4 : le support natif des HTTP Interfaces</h1>
+      <p class="mb-3">Depuis la version 3.4, Spring Boot embarque un support natif pour les <em>HTTP Interfaces</em>&nbsp;: une simple interface Java annotée suffit à décrire un client HTTP, sans écrire la moindre implémentation. Le framework génère le client au démarrage à partir des annotations et d'un <code>RestClient</code> ou <code>WebClient</code> sous-jacent.</p>
+      <p class="mb-3">Pour un projet comme Yneformaycheun, où le <code>FetchService</code> doit interroger des flux RSS hétérogènes, cette approche ne remplace pas la librairie ROME côté parsing — mais elle simplifie nettement les appels vers des API annexes (vérification d'URL, résolution de redirections) en évitant le code de plomberie habituel autour de <code>RestTemplate</code>.</p>
+      <p class="mb-3">Le point de vigilance reste la gestion des erreurs&nbsp;: sans configuration explicite d'un <code>ResponseErrorHandler</code>, une réponse 4xx ou 5xx lève une exception générique peu exploitable — à valider avant d'introduire ce pattern sur un service qui doit rester tolérant aux flux mal formés.</p>
+      <a href="#" class="inline-flex items-center gap-1.5 text-accent-600 font-heading font-semibold text-[13px]">
+        Voir l'article original
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+      </a>
+    </div>
+
+    <!-- Panneau latéral -->
+    <aside class="w-[280px] flex-none flex flex-col gap-4">
+      <button type="button" class="relative w-full inline-flex items-center justify-center gap-1.5 border border-divider font-heading font-semibold text-[13px] px-3 py-2">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        Marqué à lire plus tard
+      </button>
+
+      <div class="relative border border-divider p-4">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <div class="text-[10px] tracking-[0.1em] uppercase text-accent-600 mb-2">Tags</div>
+        <div class="flex flex-wrap gap-1.5 mb-2">
+          <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Spring</span>
+          <span class="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800">Java</span>
+        </div>
+        <input type="text" placeholder="+ Ajouter un tag…" class="w-full min-h-9 px-2.5 py-1.5 text-xs bg-surface border border-divider">
+      </div>
+
+      <div class="relative border border-divider p-4">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <div class="text-[10px] tracking-[0.1em] uppercase text-accent-600 mb-2">Notes personnelles</div>
+        <textarea rows="3" placeholder="Écrire une note…" class="w-full px-2.5 py-1.5 text-sm bg-surface border border-divider mb-2 resize-y"></textarea>
+        <button type="button" class="relative w-full inline-flex items-center justify-center gap-1.5 border border-accent bg-accent text-canvas font-heading font-semibold text-[13px] px-3 py-2 mb-3">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          Enregistrer la note
+        </button>
+        <hr class="border-divider mb-3">
+        <div class="flex flex-col gap-3">
+          <div>
+            <p class="text-[13px] mb-0.5">À creuser&nbsp;: comparer avec l'approche Feign utilisée avant.</p>
+            <span class="text-[11px] text-ink/55">13 juil. · 09:42</span>
+          </div>
+          <div>
+            <p class="text-[13px] mb-0.5">Vérifier le comportement sur une 404 avant de l'utiliser dans FetchService.</p>
+            <span class="text-[11px] text-ink/55">13 juil. · 09:47</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+</body>
+</html>
