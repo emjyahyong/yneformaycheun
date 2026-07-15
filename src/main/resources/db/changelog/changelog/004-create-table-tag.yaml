@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-table-tag
+      author: veillehub
+      comment: Création de la table TAG (étiquettes définies par l'utilisateur)
+      changes:
+        - createTable:
+            tableName: tag
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_tag
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nom
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: couleur
+                  type: varchar(20)
+        - addForeignKeyConstraint:
+            baseTableName: tag
+            baseColumnNames: user_id
+            referencedTableName: "user"
+            referencedColumnNames: id
+            constraintName: fk_tag_user
+            onDelete: CASCADE
+        - createIndex:
+            indexName: idx_tag_user_id
+            tableName: tag
+            columns:
+              - column:
+                  name: user_id

@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-add-unique-constraint-article-source-url
+      author: veillehub
+      comment: >
+        Ajout de la contrainte UNIQUE(source_id, url) sur ARTICLE. Correction d'un
+        incident de doublons : un refetch d'une même source RSS pouvait réinsérer
+        plusieurs fois le même article faute de contrainte d'unicité sur (source_id, url).
+      changes:
+        - addUniqueConstraint:
+            tableName: article
+            columnNames: source_id, url
+            constraintName: uk_article_source_url

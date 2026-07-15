@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-table-article
+      author: veillehub
+      comment: Création de la table ARTICLE (articles récupérés depuis une source RSS)
+      changes:
+        - createTable:
+            tableName: article
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_article
+                    nullable: false
+              - column:
+                  name: source_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: titre
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: url
+                  type: varchar(2048)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: contenu_resume
+                  type: text
+              - column:
+                  name: date_publication
+                  type: timestamp with time zone
+              - column:
+                  name: date_creation_en_bd
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: article
+            baseColumnNames: source_id
+            referencedTableName: source
+            referencedColumnNames: id
+            constraintName: fk_article_source
+            onDelete: CASCADE
+        - createIndex:
+            indexName: idx_article_source_id
+            tableName: article
+            columns:
+              - column:
+                  name: source_id
