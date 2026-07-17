@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-canvas text-ink font-body;
+}
+
+/* Coins décoratifs repris des maquettes (spécification visuelle validée). */
+.corner {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  color: rgba(29, 31, 32, 0.55);
+  pointer-events: none;
+}
+.corner::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: currentColor;
+}
+.corner::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+}
+.corner.tl { top: -6px; left: -6px; }
+.corner.tr { top: -6px; right: -6px; }
+.corner.bl { bottom: -6px; left: -6px; }
+.corner.br { bottom: -6px; right: -6px; }
