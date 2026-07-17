@@ -22,12 +22,17 @@ public class SourceService {
     private final SourceRepository sourceRepository;
     private final UserRepository userRepository;
     private final UrlValidator urlValidator;
+    private final AsyncFetchLauncher fetchLauncher;
+    private final FetchService fetchService;
 
     public SourceService(SourceRepository sourceRepository, UserRepository userRepository,
-                         UrlValidator urlValidator) {
+                         UrlValidator urlValidator, AsyncFetchLauncher fetchLauncher,
+                         FetchService fetchService) {
         this.sourceRepository = sourceRepository;
         this.userRepository = userRepository;
         this.urlValidator = urlValidator;
+        this.fetchLauncher = fetchLauncher;
+        this.fetchService = fetchService;
     }
 
     @Transactional
@@ -38,7 +43,23 @@ public class SourceService {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new AccessDeniedException("Utilisateur inconnu"));
         Source source = new Source(user, dto.urlRss().trim(), dto.titre());
-        return sourceRepository.save(source);
+        Source enregistree = sourceRepository.save(source);
+        // Fetch immédiat en arrière-plan : les articles apparaissent en quelques
+        // secondes sans attendre le prochain fetch planifié.
+        fetchLauncher.lancer(enregistree.getId());
+        return enregistree;
+    }
+
+    /** Force le fetch d'une source de l'utilisateur (déclenchement manuel). */
+    @Transactional
+    public Source rafraichir(Long sourceId, String userEmail) {
+        Source source = sourceRepository.findById(sourceId)
+                .orElseThrow(() -> new SourceIntrouvableException(sourceId));
+        if (!source.appartientA(userEmail)) {
+            throw new AccessDeniedException("Source d'un autre utilisateur");
+        }
+        fetchService.fetch(source);
+        return source;
     }
 
     public List<Source> listerPourUtilisateur(String userEmail) {

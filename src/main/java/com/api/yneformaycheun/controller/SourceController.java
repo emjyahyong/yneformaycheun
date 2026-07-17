@@ -41,6 +41,11 @@ public class SourceController {
                 .stream().map(SourceDto::from).toList();
     }
 
+    @PostMapping("/{id}/fetch")
+    public SourceDto rafraichir(@PathVariable Long id, Authentication auth) {
+        return SourceDto.from(sourceService.rafraichir(id, auth.getName()));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> supprimer(@PathVariable Long id, Authentication auth) {
         sourceService.supprimer(id, auth.getName());

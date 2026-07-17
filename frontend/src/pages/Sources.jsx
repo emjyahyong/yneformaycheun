@@ -12,6 +12,7 @@ export default function Sources() {
   const [erreur, setErreur] = useState('')
   const [formOuvert, setFormOuvert] = useState(false)
   const [suppression, setSuppression] = useState(null)
+  const [rafraichissement, setRafraichissement] = useState(null)
 
   const charger = () => {
     setChargement(true)
@@ -28,6 +29,21 @@ export default function Sources() {
   const onCreated = (source) => {
     setSources((prev) => [source, ...prev])
     setFormOuvert(false)
+    // Le backend lance un fetch en arrière-plan : on recharge peu après pour
+    // refléter le statut mis à jour (« Actif ») et la date de récupération.
+    setTimeout(charger, 3000)
+  }
+
+  const rafraichir = async (source) => {
+    setRafraichissement(source.id)
+    try {
+      const maj = await api.refreshSource(source.id)
+      setSources((prev) => prev.map((s) => (s.id === maj.id ? maj : s)))
+    } catch (e) {
+      setErreur(e.message)
+    } finally {
+      setRafraichissement(null)
+    }
   }
 
   const supprimer = async (source) => {
@@ -82,7 +98,9 @@ export default function Sources() {
               key={s.id}
               source={s}
               onDelete={supprimer}
+              onRefresh={rafraichir}
               suppression={suppression === s.id}
+              rafraichissement={rafraichissement === s.id}
             />
           ))}
         </div>

@@ -30,6 +30,10 @@ class SourceServiceTest {
     UserRepository userRepository;
     @Mock
     UrlValidator urlValidator;
+    @Mock
+    AsyncFetchLauncher fetchLauncher;
+    @Mock
+    FetchService fetchService;
     @InjectMocks
     SourceService sourceService;
 

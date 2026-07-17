@@ -1,6 +1,6 @@
 import { dateCourte, tempsRelatif } from '../utils/format'
 import Corners from './Corners'
-import { AlertCircle, Clock, Rss, Trash } from './Icons'
+import { AlertCircle, Clock, RefreshCw, Rss, Trash } from './Icons'
 
 function statut(source) {
   switch (source.statutFetch) {
@@ -14,7 +14,7 @@ function statut(source) {
 }
 
 // Carte d'une source RSS de l'utilisateur (titre, URL, statut, suppression).
-export default function SourceCard({ source, onDelete, suppression }) {
+export default function SourceCard({ source, onDelete, onRefresh, suppression, rafraichissement }) {
   const s = statut(source)
   return (
     <div className="relative border border-divider shadow-sm p-4 flex flex-col gap-2">
@@ -42,7 +42,16 @@ export default function SourceCard({ source, onDelete, suppression }) {
             : 'jamais récupéré'}
         </span>
       </div>
-      <div className="flex gap-2 mt-1">
+      <div className="flex gap-3 mt-1">
+        <button
+          type="button"
+          onClick={() => onRefresh(source)}
+          disabled={rafraichissement}
+          className="inline-flex items-center gap-1.5 text-accent-600 font-heading font-semibold text-[13px] px-1 disabled:opacity-50"
+        >
+          <RefreshCw size={13} spinning={rafraichissement} />
+          {rafraichissement ? 'Récupération…' : 'Rafraîchir'}
+        </button>
         <button
           type="button"
           onClick={() => onDelete(source)}

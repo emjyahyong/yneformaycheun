@@ -64,6 +64,7 @@ export const api = {
 
   getSources: () => request('/api/sources'),
   addSource: (body) => request('/api/sources', { method: 'POST', body }),
+  refreshSource: (id) => request(`/api/sources/${id}/fetch`, { method: 'POST' }),
   deleteSource: (id) => request(`/api/sources/${id}`, { method: 'DELETE' }),
 
   getArticles: ({ tag, source, page = 0, size = 12 } = {}) => {
