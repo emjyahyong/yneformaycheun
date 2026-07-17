@@ -14,6 +14,7 @@ import jakarta.persistence.UniqueConstraint;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import org.hibernate.annotations.BatchSize;
 
 /**
  * Article récupéré depuis un flux RSS. La contrainte d'unicité
@@ -53,6 +54,7 @@ public class Article {
     @JoinTable(name = "article_tag",
             joinColumns = @JoinColumn(name = "article_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @BatchSize(size = 50) // limite le N+1 lors du chargement des tags d'une page d'articles
     private Set<Tag> tags = new HashSet<>();
 
     protected Article() { } // requis par JPA

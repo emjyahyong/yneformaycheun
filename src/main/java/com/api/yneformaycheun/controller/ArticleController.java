@@ -28,12 +28,11 @@ public class ArticleController {
                                    @RequestParam(required = false) Long source,
                                    @PageableDefault(size = 20) Pageable pageable,
                                    Authentication auth) {
-        return articleService.rechercher(auth.getName(), tag, source, pageable)
-                .map(ArticleDto::from);
+        return articleService.rechercher(auth.getName(), tag, source, pageable);
     }
 
     @GetMapping("/{id}")
     public ArticleDto detail(@PathVariable Long id, Authentication auth) {
-        return ArticleDto.from(articleService.recupererPourUtilisateur(id, auth.getName()));
+        return articleService.recupererPourUtilisateur(id, auth.getName());
     }
 }
