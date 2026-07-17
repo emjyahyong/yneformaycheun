@@ -31,7 +31,7 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: tag
             baseColumnNames: user_id
-            referencedTableName: "user"
+            referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_tag_user
             onDelete: CASCADE

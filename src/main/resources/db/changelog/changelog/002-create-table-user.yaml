@@ -5,7 +5,7 @@ databaseChangeLog:
       comment: Création de la table USER (comptes utilisateurs)
       changes:
         - createTable:
-            tableName: "user"
+            tableName: users
             columns:
               - column:
                   name: id
