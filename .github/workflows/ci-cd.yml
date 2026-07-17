@@ -1,0 +1,37 @@
+name: CI-CD Yneformaycheun
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: maven
+      # Les tests d'intégration utilisent TestContainers : Docker est disponible
+      # nativement sur les runners ubuntu-latest.
+      - name: Build and run tests
+        run: ./mvnw -B clean install
+
+  build-and-deploy:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t yneformaycheun:${{ github.sha }} .
+      # Le déploiement réel dépend de l'infrastructure cible ; sur un
+      # environnement Docker Compose unique il prendrait la forme suivante :
+      # - name: Deploy via docker-compose
+      #   run: |
+      #     docker compose down
+      #     docker compose up -d --build
