@@ -77,9 +77,26 @@ export const api = {
   },
   getArticle: (id) => request(`/api/articles/${id}`),
 
+  getArticlesALire: ({ page = 0, size = 12 } = {}) => {
+    const params = new URLSearchParams()
+    params.set('page', page)
+    params.set('size', size)
+    return request(`/api/articles/a-lire?${params.toString()}`)
+  },
+  getALireStatut: (articleId) => request(`/api/articles/${articleId}/a-lire`),
+  marquerALire: (articleId) => request(`/api/articles/${articleId}/a-lire`, { method: 'POST' }),
+  demarquerALire: (articleId) => request(`/api/articles/${articleId}/a-lire`, { method: 'DELETE' }),
+
   getNotes: (articleId) => request(`/api/articles/${articleId}/notes`),
   addNote: (articleId, contenu) =>
     request(`/api/articles/${articleId}/notes`, { method: 'POST', body: { contenu } }),
 
   getTags: () => request('/api/tags'),
+  createTag: (body) => request('/api/tags', { method: 'POST', body }),
+  updateTag: (id, body) => request(`/api/tags/${id}`, { method: 'PUT', body }),
+  deleteTag: (id) => request(`/api/tags/${id}`, { method: 'DELETE' }),
+  addTagToArticle: (articleId, tagId) =>
+    request(`/api/articles/${articleId}/tags/${tagId}`, { method: 'POST' }),
+  removeTagFromArticle: (articleId, tagId) =>
+    request(`/api/articles/${articleId}/tags/${tagId}`, { method: 'DELETE' }),
 }

@@ -26,7 +26,7 @@ export default function Register() {
       await register({ email, username, password })
       // Connexion automatique après inscription réussie.
       await login(email, password)
-      navigate('/', { replace: true })
+      navigate('/dashboard', { replace: true })
     } catch (err) {
       if (err.code === 'EMAIL_DEJA_UTILISE') {
         setErreur('Un compte existe déjà pour cet e-mail.')

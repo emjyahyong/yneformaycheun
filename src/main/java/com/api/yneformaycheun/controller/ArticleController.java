@@ -1,6 +1,7 @@
 package com.api.yneformaycheun.controller;
 
 import com.api.yneformaycheun.dto.ArticleDto;
+import com.api.yneformaycheun.service.ArticleALireService;
 import com.api.yneformaycheun.service.ArticleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final ArticleALireService articleALireService;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, ArticleALireService articleALireService) {
         this.articleService = articleService;
+        this.articleALireService = articleALireService;
     }
 
     @GetMapping
@@ -29,6 +32,11 @@ public class ArticleController {
                                    @PageableDefault(size = 20) Pageable pageable,
                                    Authentication auth) {
         return articleService.rechercher(auth.getName(), tag, source, pageable);
+    }
+
+    @GetMapping("/a-lire")
+    public Page<ArticleDto> listerALire(@PageableDefault(size = 20) Pageable pageable, Authentication auth) {
+        return articleALireService.lister(auth.getName(), pageable);
     }
 
     @GetMapping("/{id}")

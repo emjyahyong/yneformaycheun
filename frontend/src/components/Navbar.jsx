@@ -17,8 +17,10 @@ export default function Navbar() {
 
   return (
     <nav className="flex items-center gap-6 px-6 py-4 border-b border-divider">
-      <span className="font-heading font-semibold text-lg mr-auto">Yneformaycheun</span>
-      <NavLink to="/" end className={lien}>
+      <NavLink to="/dashboard" className="font-heading font-semibold text-lg mr-auto">
+        Yneformaycheun
+      </NavLink>
+      <NavLink to="/dashboard" end className={lien}>
         Dashboard
       </NavLink>
       <NavLink to="/sources" className={lien}>

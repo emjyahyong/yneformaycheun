@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-create-table-article-a-lire
+      author: veillehub
+      comment: Création de la table ARTICLE_A_LIRE (marque "à lire plus tard" d'un utilisateur sur un article)
+      changes:
+        - createTable:
+            tableName: article_a_lire
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_article_a_lire
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: article_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_ajout
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: article_a_lire
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_article_a_lire_user
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: article_a_lire
+            baseColumnNames: article_id
+            referencedTableName: article
+            referencedColumnNames: id
+            constraintName: fk_article_a_lire_article
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            tableName: article_a_lire
+            columnNames: user_id, article_id
+            constraintName: uk_article_a_lire_user_article
+        - createIndex:
+            indexName: idx_article_a_lire_user_id
+            tableName: article_a_lire
+            columns:
+              - column:
+                  name: user_id
+        - createIndex:
+            indexName: idx_article_a_lire_article_id
+            tableName: article_a_lire
+            columns:
+              - column:
+                  name: article_id

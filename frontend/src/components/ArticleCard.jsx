@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 import { dateCourte } from '../utils/format'
 import Corners from './Corners'
-import { ExternalLink } from './Icons'
+import { Bookmark, ExternalLink } from './Icons'
 
 // Carte résumée d'un article dans le fil (titre, source, date, tags).
-export default function ArticleCard({ article }) {
+export default function ArticleCard({ article, onRetirerALire, retraitEnCours }) {
   return (
     <div className="relative border border-divider shadow-sm p-4 flex flex-col gap-2">
       <Corners />
@@ -22,10 +22,10 @@ export default function ArticleCard({ article }) {
         <div className="flex flex-wrap gap-1">
           {article.tags.map((t) => (
             <span
-              key={t}
+              key={t.id}
               className="inline-flex items-center text-[11px] px-2.5 py-[3px] bg-accent-100 text-accent-800"
             >
-              {t}
+              {t.nom}
             </span>
           ))}
         </div>
@@ -38,6 +38,19 @@ export default function ArticleCard({ article }) {
           Lire l&apos;article
           <ExternalLink size={12} />
         </Link>
+        {onRetirerALire && (
+          <button
+            type="button"
+            onClick={() => onRetirerALire(article)}
+            disabled={retraitEnCours}
+            title="Retirer de la liste à lire plus tard"
+            aria-label="Retirer de la liste à lire plus tard"
+            className="inline-flex items-center gap-1 text-ink/55 hover:text-accent-600 text-[12px] disabled:opacity-40"
+          >
+            <Bookmark size={13} filled />
+            Retirer
+          </button>
+        )}
       </div>
     </div>
   )

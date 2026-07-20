@@ -12,10 +12,12 @@ export default function Dashboard() {
   const [pageData, setPageData] = useState(null)
   const [filtreTag, setFiltreTag] = useState(null)
   const [filtreSource, setFiltreSource] = useState(null)
+  const [filtreALire, setFiltreALire] = useState(false)
   const [page, setPage] = useState(0)
   const [recherche, setRecherche] = useState('')
   const [chargement, setChargement] = useState(true)
   const [erreur, setErreur] = useState('')
+  const [suppressionTagId, setSuppressionTagId] = useState(null)
 
   // Filtres (tags + sources) chargés une seule fois.
   useEffect(() => {
@@ -33,12 +35,14 @@ export default function Dashboard() {
   useEffect(() => {
     setChargement(true)
     setErreur('')
-    api
-      .getArticles({ tag: filtreTag, source: filtreSource, page, size: TAILLE_PAGE })
+    const apiCall = filtreALire
+      ? api.getArticlesALire({ page, size: TAILLE_PAGE })
+      : api.getArticles({ tag: filtreTag, source: filtreSource, page, size: TAILLE_PAGE })
+    apiCall
       .then(setPageData)
       .catch((e) => setErreur(e.message))
       .finally(() => setChargement(false))
-  }, [filtreTag, filtreSource, page])
+  }, [filtreALire, filtreTag, filtreSource, page])
 
   const articles = pageData?.content ?? []
   const articlesFiltres = useMemo(() => {
@@ -59,6 +63,24 @@ export default function Dashboard() {
     setFiltreSource((cur) => (cur === sourceId ? null : sourceId))
   }
 
+  const supprimerTag = async (tag) => {
+    if (!window.confirm(`Supprimer le tag « ${tag.nom} » ?`)) return
+    setSuppressionTagId(tag.id)
+    try {
+      await api.deleteTag(tag.id)
+      setTags((prev) => prev.filter((t) => t.id !== tag.id))
+      setFiltreTag((cur) => {
+        if (cur !== tag.id) return cur
+        setPage(0)
+        return null
+      })
+    } catch (e) {
+      setErreur(e.message)
+    } finally {
+      setSuppressionTagId(null)
+    }
+  }
+
   const chipBase = 'inline-flex items-center text-[11px] px-2.5 py-[3px] cursor-pointer'
 
   return (
@@ -74,18 +96,31 @@ export default function Dashboard() {
               {tags.map((t) => {
                 const actif = filtreTag === t.id
                 return (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => changerFiltreTag(t.id)}
-                    className={`${chipBase} ${
-                      actif
-                        ? 'bg-accent-100 text-accent-800'
-                        : 'border border-accent text-accent-600'
-                    }`}
-                  >
-                    {t.nom}
-                  </button>
+                  <div key={t.id} className="inline-flex items-center gap-0.5">
+                    <button
+                      type="button"
+                      onClick={() => changerFiltreTag(t.id)}
+                      style={actif && t.couleur ? { backgroundColor: `${t.couleur}26`, color: t.couleur } : undefined}
+                      className={`${chipBase} ${
+                        actif
+                          ? t.couleur
+                            ? ''
+                            : 'bg-accent-100 text-accent-800'
+                          : 'border border-accent text-accent-600'
+                      }`}
+                    >
+                      {t.nom}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => supprimerTag(t)}
+                      disabled={suppressionTagId === t.id}
+                      aria-label={`Supprimer le tag ${t.nom}`}
+                      className="text-[11px] leading-none text-ink/40 hover:text-red-600 disabled:opacity-30"
+                    >
+                      ×
+                    </button>
+                  </div>
                 )
               })}
             </div>
@@ -118,6 +153,18 @@ export default function Dashboard() {
                 <span className="truncate">{s.titre || s.urlRss}</span>
               </button>
             ))}
+            <button
+              type="button"
+              onClick={() => {
+                setPage(0)
+                setFiltreALire((v) => !v)
+              }}
+              className={`flex justify-between text-left ${
+                filtreALire ? 'text-accent-700 font-semibold' : 'opacity-75'
+              }`}
+            >
+              <span>À lire plus tard</span>
+            </button>
           </div>
         </div>
       </aside>

@@ -57,6 +57,6 @@ class ArticleControllerIT extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.totalElements").value(1))
                 .andExpect(jsonPath("$.content[0].titre").value("Titre A"))
                 .andExpect(jsonPath("$.content[0].sourceNom").value("Source X"))
-                .andExpect(jsonPath("$.content[0].tags[0]").value("Java"));
+                .andExpect(jsonPath("$.content[0].tags[0].nom").value("Java"));
     }
 }

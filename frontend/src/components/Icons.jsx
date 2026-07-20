@@ -95,6 +95,24 @@ export const RefreshCw = ({ spinning, ...p }) => (
     <path d="M3 21v-5h5" />
   </Svg>
 )
+export const Tag = (p) => (
+  <Svg {...p}>
+    <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+    <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+  </Svg>
+)
+export const Pencil = (p) => (
+  <Svg {...p}>
+    <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+    <path d="m15 5 4 4" />
+  </Svg>
+)
+export const ArrowRight = (p) => (
+  <Svg {...p}>
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </Svg>
+)
 export const LogOut = (p) => (
   <Svg {...p}>
     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />

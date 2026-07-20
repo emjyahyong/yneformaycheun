@@ -1,0 +1,21 @@
+# Copier ce fichier en ".env" et renseigner de vraies valeurs.
+# Le ".env" ne doit jamais être commité (voir .gitignore).
+
+POSTGRES_DB=yneformaycheun
+POSTGRES_USER=yneformaycheun
+POSTGRES_PASSWORD=changeme
+# Port HÔTE publié par le conteneur postgres. 5433 pour éviter le conflit avec
+# un PostgreSQL déjà installé sur la machine (qui occupe 5432). L'application,
+# dans le réseau Docker, contacte la base via postgres:5432 (interne, inchangé).
+POSTGRES_PORT=5433
+
+APP_PORT=8080
+
+# Port HÔTE du frontend (nginx). Ouvre l'application sur http://localhost:<port>.
+FRONTEND_PORT=80
+
+# Secret de signature JWT — au moins 32 octets (256 bits) pour HS256.
+JWT_SECRET=dev-secret-yneformaycheun-0123456789-abcdefgh
+
+# Origine(s) autorisée(s) du frontend pour le CORS (séparées par des virgules).
+CORS_ALLOWED_ORIGINS=http://localhost:5173

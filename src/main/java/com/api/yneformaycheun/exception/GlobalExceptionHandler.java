@@ -39,6 +39,12 @@ public class GlobalExceptionHandler {
                 .body(new ErrorDto("ARTICLE_INTROUVABLE", e.getMessage()));
     }
 
+    @ExceptionHandler(TagIntrouvableException.class)
+    public ResponseEntity<ErrorDto> tagIntrouvable(TagIntrouvableException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDto("TAG_INTROUVABLE", e.getMessage()));
+    }
+
     @ExceptionHandler(EmailDejaUtiliseException.class)
     public ResponseEntity<ErrorDto> emailDejaUtilise(EmailDejaUtiliseException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
