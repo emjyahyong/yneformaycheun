@@ -14,4 +14,13 @@ export default defineConfig({
       },
     },
   },
+  // Tests unitaires des composants et des utilitaires du frontend.
+  // jsdom fournit un DOM sans navigateur ; le setup charge les matchers
+  // jest-dom et réinitialise le DOM entre chaque test.
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/test/setup.js',
+    css: false,
+  },
 })
